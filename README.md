@@ -1,4 +1,4 @@
-# Quan ly hien mau tinh nguyen tai Thanh Pho Da Nang
+# Quan ly cho thue xe dap tai Hoi An
 
 ### Tech
 
@@ -16,7 +16,7 @@
 
 ``` sh
 # Clone this repo to your local machine using
-git clone git@github.com/darkdy11235/quan_ly_hien_mau
+git clone git@github.com/darkdy11235/QLCTXD
 
 # Get into the directory
 cd mysql-node-express
