@@ -24,7 +24,7 @@ exports.createNguoiDungSchema = [
         .withMessage('confirm_password field must have the same value as the password field'),
     body('trang_thai')
         .optional()
-        .isIn(['Đang hoạt động', 'Khóa'])
+        .isIn([1, 0])
         .withMessage('Invalid status type'),
     body('quyen')
         .optional()
@@ -50,7 +50,7 @@ exports.updateNguoiDungSchema = [
         .withMessage('confirm_password field must have the same value as the password field'),
     body('trang_thai')
         .optional()
-        .isIn(['Đang hoạt động', 'Đã khóa'])
+        .isIn([1, 0])
         .withMessage('Invalid status type'),
         body('quyen')
         .optional()

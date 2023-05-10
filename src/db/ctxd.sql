@@ -7,15 +7,13 @@ create table if not exists nguoi_dung (
     ma_nguoi_dung int primary key auto_increment,
     ten_dang_nhap varchar(50) not null,
     mat_khau varchar(255) not null,
-    trang_thai varchar(50) not null,
+    trang_thai int not null,
     quyen varchar(10) not null
 );
 
 -- alter quyen column in table nguoi_dung = quyen enum('QTV', 'NCT', 'NT') default 'NT' --
 alter table nguoi_dung modify quyen enum('QTV', 'NCT', 'NT') default 'NT';
 
--- alter trang_thai column in table nguoi_dung = trang_thai enum('Đang hoạt động', 'Đã khóa') default 'Đang hoạt động' --
-alter table nguoi_dung modify trang_thai enum('Đang hoạt động', 'Đã khóa') default 'Đang hoạt động';
 
 create table if not exists nguoi_thue (
     ma_nguoi_thue int primary key auto_increment,
