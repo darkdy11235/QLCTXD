@@ -1,8 +1,7 @@
-
 const NguoiDungModel = require('../models/nguoiDung.model');
 const HttpException = require('../utils/HttpException.utils');
-const Quyen = require('../utils/nguoiDungQuyen.utils');
 const { validationResult } = require('express-validator');
+const Quyen = require('../utils/nguoiDungQuyen.utils');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const dotenv = require('dotenv');
@@ -27,14 +26,10 @@ class NguoiDungController {
     };
 
     getNguoiDungById = async (req, res, next) => {
-        console.log(req.params);
         const nguoiDung = await NguoiDungModel.findOne({ ma_nguoi_dung: req.params.ma_nguoi_dung });
-        console.log(nguoiDung);
         if (!nguoiDung) {
             throw new HttpException(404, 'NguoiDung not found');
         }
-        console.log(nguoiDung);
-        console.log("nguoiDung.mat_khau");
         const { mat_khau, ...nguoiDungWithoutPassword } = nguoiDung;
 
         res.send(nguoiDungWithoutPassword);
@@ -52,26 +47,21 @@ class NguoiDungController {
     };
 
     getCurrentNguoiDung = async (req, res, next) => {
-        const { mat_khau, ...nguoiDungWithoutPassword } = req.currentNguoiDung;
+        const nguoiDung = await NguoiDungModel.findOne({ ma_nguoi_dung: req.currentUser.ma_nguoi_dung });
+        if (!nguoiDung) {
+            throw new HttpException(404, 'NguoiDung not found');
+        }
+
+        const { mat_khau, ...nguoiDungWithoutPassword } = nguoiDung;
 
         res.send(nguoiDungWithoutPassword);
     };
 
     createNguoiDung = async (req, res, next) => {
         this.checkValidation(req);
-        if(req.body.quyen == Quyen.QTV){
-            res.status(401).send('Khong duoc tao quyen QTV');
-            return;
-        }
         await this.hashPassword(req);
         const {xac_nhan_mat_khau, ...restOfReqBody} = req.body;
-        let nguoiDung = await NguoiDungModel.findOne({ten_dang_nhap: restOfReqBody.ten_dang_nhap});
-        if(nguoiDung){
-            res.status(401).send('Ten dang nhap da ton tai');
-            return;
-        }
         const result = await NguoiDungModel.create(restOfReqBody);
-
         if (!result) {
             throw new HttpException(500, 'Something went wrong');
         }
@@ -103,6 +93,9 @@ class NguoiDungController {
     };
 
     deleteNguoiDung = async (req, res, next) => {
+        if (req.currentUser.ma_nguoi_dung == req.params.ma_nguoi_dung) {
+            throw new HttpException(400, 'You can\'t delete yourself');
+        }
         const result = await NguoiDungModel.delete(req.params.ma_nguoi_dung);
         if (!result) {
             throw new HttpException(404, 'NguoiDung not found');

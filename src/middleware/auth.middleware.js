@@ -7,7 +7,6 @@ dotenv.config();
 const auth = (...quyen) => {
     return async function (req, res, next) {
         try {
-            console.log(req.headers.authorization);
             const authHeader = req.headers.authorization;
             const bearer = 'Bearer ';
 

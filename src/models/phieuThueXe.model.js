@@ -1,17 +1,15 @@
 const query = require('../db/db-connection');
 const { multipleColumnSet } = require('../utils/common.utils');
-class NguoiDungModel{
-    // ten_dang_nhap
-    // mat_khau
-    // ho_va_ten
-    // cccd
-    // sdt
-    // email
-    // dia_chi
+class PhieuThueXeModel{
+    // ma_nguoi_thue
+    // ngay_thue
+    // ngay_tra
+    // gio_thue
+    // gio_tra
+    // thoi_gian_tra_thuc_te
     // trang_thai
-    // quyen
-    tableName = 'nguoi_dung';
-    primaryKeyName = 'ma_nguoi_dung';
+    tableName = 'phieu_thue_xe';
+    primaryKeyName = 'ma_phieu_thue_xe';
 
     find = async (params = {}) => {
         let sql = `SELECT * FROM ${this.tableName}`;
@@ -31,15 +29,15 @@ class NguoiDungModel{
         const sql = `SELECT * FROM ${this.tableName}
         WHERE ${columnSet}`;
         const result = await query(sql, [...values]);
-        // return back the first row (nguoi_dung)
+        // return back the first row (phieu_thue_xe)
         return result[0];
     }
 
-    create = async ({ten_dang_nhap, mat_khau, ho_va_ten, cccd, sdt, email, dia_chi, trang_thai, quyen}) => {
+    create = async ({ma_nguoi_thue, ngay_thue, ngay_tra, gio_thue, gio_tra, thoi_gian_tra_thuc_te, trang_thai}) => {
         const sql = `INSERT INTO ${this.tableName}
-        (ten_dang_nhap, mat_khau, ho_va_ten, cccd, sdt, email, dia_chi, trang_thai, quyen) VALUES (?,?,?,?,?,?,?,?,?)`;
+        (ma_nguoi_thue, ngay_thue, ngay_tra, gio_thue, gio_tra, thoi_gian_tra_thuc_te, trang_thai) VALUES (?,?,?,?,?,?,?)`;
 
-        const result = await query(sql, [ten_dang_nhap, mat_khau, ho_va_ten, cccd, sdt, email, dia_chi, trang_thai, quyen]);
+        const result = await query(sql, [ma_nguoi_thue, ngay_thue, ngay_tra, gio_thue, gio_tra, thoi_gian_tra_thuc_te, trang_thai]);
         const affectedRows = result ? result.affectedRows : 0;
 
         return affectedRows;
@@ -65,4 +63,4 @@ class NguoiDungModel{
     }
 }
 
-module.exports = new NguoiDungModel;
+module.exports = new PhieuThueXeModel;

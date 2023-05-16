@@ -1,17 +1,9 @@
 const query = require('../db/db-connection');
 const { multipleColumnSet } = require('../utils/common.utils');
-class NguoiDungModel{
-    // ten_dang_nhap
-    // mat_khau
-    // ho_va_ten
-    // cccd
-    // sdt
-    // email
-    // dia_chi
-    // trang_thai
-    // quyen
-    tableName = 'nguoi_dung';
-    primaryKeyName = 'ma_nguoi_dung';
+class LoaiXeModel{
+    // ten_loai_xe
+    tableName = 'loai_xe';
+    primaryKeyName = 'ma_loai_xe';
 
     find = async (params = {}) => {
         let sql = `SELECT * FROM ${this.tableName}`;
@@ -31,15 +23,15 @@ class NguoiDungModel{
         const sql = `SELECT * FROM ${this.tableName}
         WHERE ${columnSet}`;
         const result = await query(sql, [...values]);
-        // return back the first row (nguoi_dung)
+        // return back the first row (loai_xe)
         return result[0];
     }
 
-    create = async ({ten_dang_nhap, mat_khau, ho_va_ten, cccd, sdt, email, dia_chi, trang_thai, quyen}) => {
+    create = async ({ten_loai_xe}) => {
         const sql = `INSERT INTO ${this.tableName}
-        (ten_dang_nhap, mat_khau, ho_va_ten, cccd, sdt, email, dia_chi, trang_thai, quyen) VALUES (?,?,?,?,?,?,?,?,?)`;
+        (ten_loai_xe) VALUES (?)`;
 
-        const result = await query(sql, [ten_dang_nhap, mat_khau, ho_va_ten, cccd, sdt, email, dia_chi, trang_thai, quyen]);
+        const result = await query(sql, [ten_loai_xe]);
         const affectedRows = result ? result.affectedRows : 0;
 
         return affectedRows;
@@ -65,4 +57,4 @@ class NguoiDungModel{
     }
 }
 
-module.exports = new NguoiDungModel;
+module.exports = new LoaiXeModel;

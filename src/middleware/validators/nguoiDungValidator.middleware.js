@@ -22,6 +22,32 @@ exports.createNguoiDungSchema = [
         .exists()
         .custom((value, { req }) => value === req.body.mat_khau)
         .withMessage('confirm_password field must have the same value as the password field'),
+    body('ho_va_ten')
+        .exists()
+        .withMessage('ho_va_ten is required')
+        .isLength({ min: 3 })
+        .withMessage('Must be at least 3 chars long'),
+    body('cccd')
+        .exists()
+        .withMessage('cccd is required')
+        .isLength({ min: 9 })
+        .withMessage('Must be at least 9 chars long'),
+    body('sdt')
+        .exists()
+        .withMessage('sdt is required')
+        .isLength({ min: 10 })
+        .withMessage('Must be at least 10 chars long'),
+    body('email')
+        .exists()
+        .withMessage('email is required')
+        .isEmail()
+        .normalizeEmail()
+        .withMessage('Invalid email'),
+    body('dia_chi')
+        .exists()
+        .withMessage('dia_chi is required')
+        .isLength({ min: 3 })
+        .withMessage('Must be at least 3 chars long'),
     body('trang_thai')
         .optional()
         .isIn([1, 0])
@@ -42,12 +68,24 @@ exports.updateNguoiDungSchema = [
         .notEmpty()
         .isLength({ min: 6 })
         .withMessage('Password must contain at least 6 characters')
-        .custom((value, { req }) => !!req.body.confirm_password)
         .withMessage('Please confirm your password'),
-    body('xac_nhan_mat_khau')
+    body('ho_va_ten')
         .optional()
-        .custom((value, { req }) => value === req.body.password)
-        .withMessage('confirm_password field must have the same value as the password field'),
+        .isLength({ min: 3 }),
+    body('cccd')
+        .optional()
+        .isLength({ min: 9 }),
+    body('sdt')
+        .optional()
+        .isLength({ min: 10 }),
+    body('email')
+        .optional()
+        .isEmail()
+        .normalizeEmail()
+        .withMessage('Invalid email'),
+    body('dia_chi')
+        .optional()
+        .isLength({ min: 3 }),
     body('trang_thai')
         .optional()
         .isIn([1, 0])

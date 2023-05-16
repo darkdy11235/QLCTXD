@@ -1,17 +1,15 @@
 const query = require('../db/db-connection');
 const { multipleColumnSet } = require('../utils/common.utils');
-class NguoiDungModel{
-    // ten_dang_nhap
-    // mat_khau
-    // ho_va_ten
-    // cccd
-    // sdt
-    // email
-    // dia_chi
+class XeModel{
+    // ma_loai_xe
+    // ma_nguoi_cho_thue
+    // tieu_de
+    // mo_ta
+    // anh
+    // gia_cho_thue_moi_gio
     // trang_thai
-    // quyen
-    tableName = 'nguoi_dung';
-    primaryKeyName = 'ma_nguoi_dung';
+    tableName = 'xe';
+    primaryKeyName = 'ma_xe';
 
     find = async (params = {}) => {
         let sql = `SELECT * FROM ${this.tableName}`;
@@ -26,20 +24,31 @@ class NguoiDungModel{
         return await query(sql, [...values]);
     }
 
+    findByTime = async ({ngay_thue, gio_thue, ngay_tra, gio_tra}) => {
+        // phieu_thue_xe(ma_phieu_thue_xe,ma_nguoi_thue,ngay_thue,ngay_tra,gio_thue,gio_tra,thoi_gian_tra_thuc_te,trang_thai)
+        // xe(ma_xe,ma_loai_xe,ma_nguoi_cho_thue,tieu_de,mo_ta,anh,gia_cho_thue_moi_gio,trang_thai)
+        // chi_tiet_phieu_thue_xe(ma_phieu_thue_xe,ma_xe,ngay_thue,ngay_tra,gio_thue,gio_tra)
+        let sql = `SELECT * FROM ${this.tableName}
+        WHERE ma_xe NOT IN (SELECT ma_xe 
+                            FROM (Select * from chi_tiet_phieu_thue_Xe ctptx where ctptx.ngay_thue = ? and ctptx.ngay_tra = ?) 
+                            WHERE (gio_thue BETWEEN ? AND ?) or (gio_tra BETWEEN ? AND ?)`;
+        return await query(sql, [ngay_thue, ngay_tra, gio_thue, gio_tra, gio_thue, gio_tra]);
+    }
+
     findOne = async (params) => {
         const { columnSet, values } = multipleColumnSet(params)
         const sql = `SELECT * FROM ${this.tableName}
         WHERE ${columnSet}`;
         const result = await query(sql, [...values]);
-        // return back the first row (nguoi_dung)
+        // return back the first row (xe)
         return result[0];
     }
 
-    create = async ({ten_dang_nhap, mat_khau, ho_va_ten, cccd, sdt, email, dia_chi, trang_thai, quyen}) => {
+    create = async ({ma_loai_xe, ma_nguoi_cho_thue, tieu_de, mo_ta, anh, gia_cho_thue_moi_gio, trang_thai}) => {
         const sql = `INSERT INTO ${this.tableName}
-        (ten_dang_nhap, mat_khau, ho_va_ten, cccd, sdt, email, dia_chi, trang_thai, quyen) VALUES (?,?,?,?,?,?,?,?,?)`;
+        (ma_loai_xe, ma_nguoi_cho_thue, tieu_de, mo_ta, anh, gia_cho_thue_moi_gio, trang_thai) VALUES (?, ?, ?, ?, ?, ?, ?)`;
 
-        const result = await query(sql, [ten_dang_nhap, mat_khau, ho_va_ten, cccd, sdt, email, dia_chi, trang_thai, quyen]);
+        const result = await query(sql, [ma_loai_xe, ma_nguoi_cho_thue, tieu_de, mo_ta, anh, gia_cho_thue_moi_gio, trang_thai]);
         const affectedRows = result ? result.affectedRows : 0;
 
         return affectedRows;
@@ -65,4 +74,4 @@ class NguoiDungModel{
     }
 }
 
-module.exports = new NguoiDungModel;
+module.exports = new XeModel;

@@ -34,7 +34,7 @@
                     {
                         "in": "body",
                         "name": "body",
-                        "description": "Created user object",
+                        "description": "User login credentials",
                         "required": true,
                         "schema": {
                             "$ref": "#/definitions/Login"
@@ -108,7 +108,7 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "A list of NguoiDung",
+                        "description": "successful operation",
                         "schema": {
                             "type": "array",
                             "items": {
@@ -135,7 +135,7 @@
               "tags": [
                 "NguoiDung"
               ],
-              "summary": "Update record",
+                "summary": "Find NguoiDung by ma_nguoi_dung",
               "produces": [
                 "application/json"
               ],
@@ -143,30 +143,304 @@
                 {
                   "in": "path",
                   "name": "ma_nguoi_dung",
-                  "description": "ID of body",
+                  "description": "ma_nguoi_dung of body",
                   "required": true,
                   "type": "string"
                 }
               ],
               "responses": {
                 "default": {
-                  "description": "successful operation"
+                  "description": "successful operation",
+                    "schema": {
+                        "$ref": "#/definitions/GetNguoiDungByMaNguoiDung"
+                    }
                 }
               }
+            },
+            "patch" : {
+                "security": [
+                    {
+                      "Bearer": []
+                    }
+                  ],
+                  "tags": [
+                    "NguoiDung"
+                  ],
+                    "summary": "Update NguoiDung by ma_nguoi_dung",
+                  "produces": [
+                    "application/json"
+                  ],
+                  "parameters": [
+                    {
+                      "in": "path",
+                      "name": "ma_nguoi_dung",
+                      "description": "ma_nguoi_dung of body",
+                      "required": true,
+                      "type": "string"
+                    },
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "description": "Created user object",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/UpdateNguoiDungByMaNguoiDung"
+                        }
+                    }
+                  ],
+                  "responses": {
+                    "default": {
+                      "description": "successful operation"
+                    }
+                  }
+            },
+            "delete" : {
+                "security": [
+                    {
+                      "Bearer": []
+                    }
+                  ],
+                  "tags": [
+                    "NguoiDung"
+                  ],
+                    "summary": "Delete NguoiDung by ma_nguoi_dung",
+                  "produces": [
+                    "application/json"
+                  ],
+                  "parameters": [
+                    {
+                      "in": "path",
+                      "name": "ma_nguoi_dung",
+                      "description": "ma_nguoi_dung of body",
+                      "required": true,
+                      "type": "string"
+                    }
+                  ],
+                  "responses": {
+                    "default": {
+                      "description": "successful operation"
+                    }
+                  }
             }
-          }
+          },
+          "/nguoi_dung/ten_dang_nhap/{ten_dang_nhap}": {
+              "get": {
+                "security": [
+                  {
+                    "Bearer": []
+                  }
+                ],
+                "tags": [
+                  "NguoiDung"
+                ],
+                  "summary": "Find NguoiDung by ten_dang_nhap",
+                "produces": [
+                  "application/json"
+                ],
+                "parameters": [
+                  {
+                    "in": "path",
+                    "name": "ten_dang_nhap",
+                    "description": "ten_dang_nhap of body",
+                    "required": true,
+                    "type": "string"
+                  }
+                ],
+                "responses": {
+                  "default": {
+                    "description": "successful operation"
+                  }
+                }
+              }
+            },
+            "/nguoi_dung/whoami": {
+                "get": {
+                    "security": [
+                      {
+                        "Bearer": []
+                      }
+                    ],
+                    "tags": [
+                      "NguoiDung"
+                    ],
+                      "summary": "Find current NguoiDung",
+                    "produces": [
+                      "application/json"
+                    ],
+                    "responses": {
+                      "default": {
+                        "description": "successful operation"
+                      }
+                    }
+                  }
+            },
+            "/loai_xe": {
+                "get": {
+                    "tags": [
+                        "LoaiXe"
+                    ],
+                    "summary": "Get all LoaiXe",
+                    "produces": [
+                        "application/json"
+                    ],
+                    "responses": {
+                        "200": {
+                            "description": "User successfully created"
+                        },
+                        "400": {
+                            "description": "Bad request (e.g., invalid email or password)"
+                            
+                        },
+                        "409": {
+                            "description": "Conflict (e.g., email is already in use)"
+                            
+                        }
+                    }
+                },
+                "post": {
+                    "security": [
+                        {
+                          "Bearer": []
+                        }
+                      ],
+                    "tags": [
+                        "LoaiXe"
+                    ],
+                    "summary": "Create LoaiXe",
+                    "produces": [
+                        "application/json"
+                    ],
+                    "parameters": [
+                        {
+                            "in": "body",
+                            "name": "body",
+                            "description": "Created user object",
+                            "required": true,
+                            "schema": {
+                                "$ref": "#/definitions/CreateLoaiXe"
+                            }
+                        }
+                    ],
+                    "responses": {
+                        "default": {
+                            "description": "successful operation"
+                        }
+                    }
+                }
+            },
+
+            "/loai_xe/{ma_loai_xe}": {
+                "get": {
+                    "security": [
+                        {
+                          "Bearer": []
+                        }
+                      ],
+                    "tags": [
+                        "LoaiXe"
+                    ],
+                    "summary": "Get LoaiXe by ma_loai_xe",
+                    "produces": [
+                        "application/json"
+                    ],
+                    "parameters": [
+                        {
+                            "in": "path",
+                            "name": "ma_loai_xe",
+                            "description": "ma_loai_xe of body",
+                            "required": true,
+                            "type": "string"
+                        }
+                    ],
+                    "responses": {
+                        "200": {
+                            "description": "User successfully created"
+                        },
+                        "400": {
+                            "description": "Bad request (e.g., invalid email or password)"
+                            
+                        },
+                        "409": {
+                            "description": "Conflict (e.g., email is already in use)"
+                            
+                        }
+                    }
+                },
+                "patch" : {
+                    "security": [
+                        {
+                          "Bearer": []
+                        }
+                      ],
+                      "tags": [
+                        "LoaiXe"
+                      ],
+                        "summary": "Update LoaiXe by ma_loai_xe",
+                      "produces": [
+                        "application/json"
+                      ],
+                      "parameters": [
+                        {
+                          "in": "path",
+                          "name": "ma_loai_xe",
+                          "description": "ma_loai_xe of body",
+                          "required": true,
+                          "type": "string"
+                        },
+                        {
+                            "in": "body",
+                            "name": "body",
+                            "description": "Created user object",
+                            "required": true,
+                            "schema": {
+                                "$ref": "#/definitions/UpdateLoaiXeByMaLoaiXe"
+                            }
+                        }
+                      ],
+                      "responses": {
+                        "default": {
+                          "description": "successful operation"
+                        }
+                      }
+                },
+                "delete" : {
+                    "security": [
+                        {
+                          "Bearer": []
+                        }
+                      ],
+                      "tags": [
+                        "LoaiXe"
+                      ],
+                        "summary": "Delete LoaiXe by ma_loai_xe",
+                      "produces": [
+                        "application/json"
+                      ],
+                      "parameters": [
+                        {
+                          "in": "path",
+                          "name": "ma_loai_xe",
+                          "description": "ma_loai_xe of body",
+                          "required": true,
+                          "type": "string"
+                        }
+                      ],
+                      "responses": {
+                        "default": {
+                          "description": "successful operation"
+                        }
+                      }
+                }
+            }
     },
     "definitions": {
         "Login": {
             "type": "object",
-            "properties": {
+            "properties": { 
                 "ten_dang_nhap": {
                     "type": "string"
                 },
                 "mat_khau": {
-                    "type": "string"
-                },
-                "xac_nhan_mat_khau": {
                     "type": "string"
                 }
             },
@@ -184,6 +458,21 @@
                     "type": "string"
                 },
                 "xac_nhan_mat_khau": {
+                    "type": "string"
+                },
+                "ho_va_ten": {
+                    "type": "string"
+                },
+                "cccd": {
+                    "type": "string"
+                },
+                "sdt": {
+                    "type": "string"
+                },
+                "email": {
+                    "type": "string"
+                },
+                "dia_chi": {
                     "type": "string"
                 },
                 "trang_thai": {
@@ -208,8 +497,64 @@
             "xml": {
                 "name": "NguoiDung"
             }
+        },
+        "UpdateNguoiDungByMaNguoiDung": {
+            "type": "object",
+            "properties": {
+                "ten_dang_nhap": {
+                    "type": "string"
+                },
+                "mat_khau": {
+                    "type": "string"
+                },
+                "ho_va_ten": {
+                    "type": "string"
+                },
+                "cccd": {
+                    "type": "string"
+                },
+                "sdt": {
+                    "type": "string"
+                },
+                "email": {
+                    "type": "string"
+                },
+                "dia_chi": {
+                    "type": "string"
+                },
+                "trang_thai": {
+                    "type": "string"
+                },
+                "quyen": {
+                    "type": "string"
+                }
+            },
+            "xml": {
+                "name": "NguoiDung"
+            }
+        },
+        "CreateLoaiXe" : {
+            "type": "object",
+            "properties": {
+                "ten_loai_xe": {
+                    "type": "string"
+                }
+            },
+            "xml": {
+                "name": "LoaiXe"
+            }
+        },
+        "UpdateLoaiXeByMaLoaiXe" : {
+            "type": "object",
+            "properties": {
+                "ten_loai_xe": {
+                    "type": "string"
+                }
+            },
+            "xml": {
+                "name": "LoaiXe"
+            }
         }
-        
 
     }
 }
