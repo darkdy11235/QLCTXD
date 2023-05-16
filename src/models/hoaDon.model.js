@@ -29,6 +29,17 @@ class HoaDonModel{
         // return back the first row (hoa_don)
         return result[0];
     }
+    
+    findHoaDonByMaPhieuThueXe = async (ma_phieu_thue_xe) => {
+        const sql = `select sum(gia_cho_thue_moi_gio * (phieu_thue_xe.gio_tra - phieu_thue_xe.gio_thue))
+        from xe , phieu_thue_xe 
+        where xe.ma_xe in (select chi_tiet_phieu_thue_Xe.ma_xe
+                        from chi_tiet_phieu_thue_Xe 
+                        where chi_tiet_phieu_thue_Xe.ma_phieu_thue_xe = ?) and phieu_thue_xe.ma_phieu_thue_xe = phieu_thue_xe.ma_phieu_thue_xe;`;
+        const result = await query(sql, [ma_phieu_thue_xe]);
+        // return back the first row (hoa_don)
+        return result[0];
+    }
 
     create = async ({ma_phieu_thue_xe, tong_tien, ngay_lap, trang_thai}) => {
         const sql = `INSERT INTO ${this.tableName}

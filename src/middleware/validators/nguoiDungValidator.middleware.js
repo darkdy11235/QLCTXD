@@ -28,7 +28,7 @@ exports.createNguoiDungSchema = [
         .isLength({ min: 3 })
         .withMessage('Must be at least 3 chars long'),
     body('cccd')
-        .exists()
+        .optional()
         .withMessage('cccd is required')
         .isLength({ min: 9 })
         .withMessage('Must be at least 9 chars long'),
@@ -38,13 +38,13 @@ exports.createNguoiDungSchema = [
         .isLength({ min: 10 })
         .withMessage('Must be at least 10 chars long'),
     body('email')
-        .exists()
+        .optional()
         .withMessage('email is required')
         .isEmail()
         .normalizeEmail()
         .withMessage('Invalid email'),
     body('dia_chi')
-        .exists()
+        .optional()
         .withMessage('dia_chi is required')
         .isLength({ min: 3 })
         .withMessage('Must be at least 3 chars long'),

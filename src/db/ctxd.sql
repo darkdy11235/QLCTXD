@@ -1,5 +1,5 @@
 drop database if exists CTXD;
-create database if not exists CTXD utf8mb4 collate utf8mb4_unicode_ci;
+create database if not exists CTXD;
 
 use CTXD;
 
@@ -128,6 +128,7 @@ alter table hoa_don modify trang_thai enum('Đã thanh toán', 'Chưa thanh toá
 -- add foreign key constraint to table hoa_don --
 alter table hoa_don add constraint fk_hoa_don_phieu_thue_xe foreign key (ma_phieu_thue_xe) references phieu_thue_xe(ma_phieu_thue_xe);
 
+
 insert into loai_xe (ten_loai_xe) values ('Xe địa hình'),
                                     ('Xe đạp đua'),
                                     ('Xe đạp thể thao'),
@@ -138,9 +139,9 @@ insert into loai_xe (ten_loai_xe) values ('Xe địa hình'),
                                     ('Xe đạp leo núi'),
                                     ('Xe đạp đường phố');
 
-insert into nguoi_dung (ten_dang_nhap, mat_khau, ho_va_ten, cccd, sdt, email, dia_chi, trang_thai, quyen) values ('admin', '$2a$08$/62J/aKYb0hJSLsWX64QNuExUdMvw0hqoIvoiXjOzLL3akbTOQJFe', 'admin', '1234567890', '0999999999', 'admin@gmail.com', 'admin', 1, 'QTV'),
-                                                                                                                    ('user', '$2a$08$VfKxHZgyssybzNdn/Cgf2eVs8L4zNV4sME.50p6f5Paq8jFlqBRjW', 'user', '1234567891', '0999999998', 'user@gmail.com', 'user', 1, 'NT'),
-                                                                                                                    ('suser', '$2a$08$PsOfo.4VFJ3HIES2HrXRoe79u3m8iXZg5j8tHkZtqC6yUpKihI2zG', 'suser', '1234567892', '0999999997', 'suser@gmail.com', 'suser', 1, 'NCT');
+insert into nguoi_dung (ten_dang_nhap, mat_khau, ho_va_ten, cccd, sdt, email, dia_chi, trang_thai, quyen) values ('admin123', '$2a$08$/62J/aKYb0hJSLsWX64QNuExUdMvw0hqoIvoiXjOzLL3akbTOQJFe', 'admin', '1234567890', '0999999999', 'admin@gmail.com', 'admin', 1, 'QTV'),
+                                                                                                                    ('user123', '$2a$08$/62J/aKYb0hJSLsWX64QNuExUdMvw0hqoIvoiXjOzLL3akbTOQJFe', 'user', '1234567891', '0999999998', 'user@gmail.com', 'user', 1, 'NT'),
+                                                                                                                    ('suser123', '$2a$08$/62J/aKYb0hJSLsWX64QNuExUdMvw0hqoIvoiXjOzLL3akbTOQJFe', 'suser', '1234567892', '0999999997', 'suser@gmail.com', 'suser', 1, 'NCT');
 
 insert into xe (ma_loai_xe, ma_nguoi_cho_thue, tieu_de, mo_ta, anh, gia_cho_thue_moi_gio, trang_thai) values (1, 3, 'Xe địa hình 1', 'Xe địa hình 1', 'https://cdn.tgdd.vn/Files/2021/07/20/1369474/phan-loai-cac-dong-xe-dap-pho-bien-tren-thi-5.png', 50000, 1),
                                                                                                         (2, 3, 'Xe đạp đua 1', 'Xe đạp đua 1', 'https://cdn.tgdd.vn/Files/2021/07/20/1369474/phan-loai-cac-dong-xe-dap-pho-bien-tren-thi-8.jpg', 100000,1);
@@ -151,6 +152,19 @@ insert into chi_tiet_phieu_thue_Xe(ma_phieu_thue_xe,ma_xe,ngay_thue,ngay_tra,gio
                                                                                                         (1,2,'20230814','20230814',8,9);
 
 -- trigger for hoa-don
+
+CREATE TRIGGER auto_insert_hoa_don
+AFTER UPDATE
+ON phieu_thue_xe FOR EACH ROW
+BEGIN
+    if (NEW.trang_thai = 'Đã trả') then
+        insert into hoa_don (ma_phieu_thue_xe, tong_tien, ngay_lap, trang_thai) values (NEW.ma_phieu_thue_xe, (select sum(gia_cho_thue_moi_gio * (phieu_thue_xe.gio_tra - phieu_thue_xe.gio_thue))
+            from xe , phieu_thue_xe 
+            where xe.ma_xe in (select chi_tiet_phieu_thue_Xe.ma_xe
+            from chi_tiet_phieu_thue_Xe 
+            where chi_tiet_phieu_thue_Xe.ma_phieu_thue_xe = NEW.ma_phieu_thue_xe) and phieu_thue_xe.ma_phieu_thue_xe = phieu_thue_xe.ma_phieu_thue_xe) , now(), 'Chưa thanh toán');
+    end if;
+END;
 
 
 
