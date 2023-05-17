@@ -62,7 +62,7 @@ class XeController {
     };
 
     updateXe = async (req, res, next) => {
-        const result = await XeModel.update(restOfUpdates, req.params.ma_xe);
+        const result = await XeModel.update(req.body, req.params.ma_xe);
         if (!result) {
             throw new HttpException(404, 'Something went wrong');
         }
