@@ -56,7 +56,7 @@ create table if not exists xe (
     ma_nguoi_cho_thue int  ,
     tieu_de nvarchar(255)  ,
     mo_ta nvarchar(255)  ,
-    anh varchar(255)  ,
+    anh mediumtext  ,
     gia_cho_thue_moi_gio int  ,
     trang_thai int   
 );
