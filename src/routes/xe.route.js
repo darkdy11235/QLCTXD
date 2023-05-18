@@ -9,7 +9,7 @@ const awaitHandlerFactory = require('../middleware/awaitHandlerFactory.middlewar
 router.get('/', awaitHandlerFactory(xeController.getAllXe)); 
 router.get('/ma_xe/:ma_xe', auth(), awaitHandlerFactory(xeController.getXeById));
 router.get('/ma_nguoi_cho_thue/:ma_nguoi_cho_thue', auth(), awaitHandlerFactory(xeController.getXeByNguoiChoThue));
-router.get('/trang_thai/:trang_thai', auth(), awaitHandlerFactory(xeController.getXeByTrangThai));
+router.get('/trang_thai/:trang_thai', awaitHandlerFactory(xeController.getXeByTrangThai));
 router.get('/ngay_thue/:ngay_thue/gio_thue/:gio_thue/ngay_tra/:ngay_tra/gio_tra/:gio_tra', awaitHandlerFactory(xeController.getXeByTime));
 router.post('/', auth(), awaitHandlerFactory(xeController.createXe)); 
 router.patch('/ma_xe/:ma_xe', auth(), awaitHandlerFactory(xeController.updateXe)); 

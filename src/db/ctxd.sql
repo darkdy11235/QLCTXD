@@ -94,10 +94,6 @@ create table if not exists phieu_thue_xe (
     trang_thai nvarchar(50)
 );
 
--- alter trang_thai column in table enum('Đã đặt lịch', 'Đã hủy', 'Đang thuê', 'Đã trả') default 'Đã đặt lịch' --
-ALTER TABLE phieu_thue_xe MODIFY trang_thai ENUM('Đã đặt lịch', 'Đã hủy', 'Đang thuê', 'Đã trả') DEFAULT 'Đã đặt lịch';
-
-
 -- add foreign key constraint to table phieu_thue_xe --
 alter table phieu_thue_xe add constraint fk_phieu_thue_xe_nguoi_thue foreign key (ma_nguoi_thue) references nguoi_dung(ma_nguoi_dung);
 

@@ -1,66 +1,81 @@
-const query = require('../db/db-connection');
-const { multipleColumnSet } = require('../utils/common.utils');
-class PhieuThueXeModel{
-    // ma_nguoi_thue
-    // ngay_thue
-    // ngay_tra
-    // gio_thue
-    // gio_tra
-    // thoi_gian_tra_thuc_te
-    // trang_thai
-    tableName = 'phieu_thue_xe';
-    primaryKeyName = 'ma_phieu_thue_xe';
+const query = require("../db/db-connection");
+const { multipleColumnSet } = require("../utils/common.utils");
+class PhieuThueXeModel {
+  // ma_nguoi_thue
+  // ngay_thue
+  // ngay_tra
+  // gio_thue
+  // gio_tra
+  // thoi_gian_tra_thuc_te
+  // trang_thai
+  tableName = "phieu_thue_xe";
+  primaryKeyName = "ma_phieu_thue_xe";
 
-    find = async (params = {}) => {
-        let sql = `SELECT * FROM ${this.tableName}`;
+  find = async (params = {}) => {
+    let sql = `SELECT * FROM ${this.tableName}`;
 
-        if (!Object.keys(params).length) {
-            return await query(sql);
-        }
-
-        const { columnSet, values } = multipleColumnSet(params)
-        sql += ` WHERE ${columnSet}`;
-
-        return await query(sql, [...values]);
+    if (!Object.keys(params).length) {
+      return await query(sql);
     }
 
-    findOne = async (params) => {
-        const { columnSet, values } = multipleColumnSet(params)
-        const sql = `SELECT * FROM ${this.tableName}
+    const { columnSet, values } = multipleColumnSet(params);
+    sql += ` WHERE ${columnSet}`;
+
+    return await query(sql, [...values]);
+  };
+
+  findOne = async (params) => {
+    const { columnSet, values } = multipleColumnSet(params);
+    const sql = `SELECT * FROM ${this.tableName}
         WHERE ${columnSet}`;
-        const result = await query(sql, [...values]);
-        // return back the first row (phieu_thue_xe)
-        return result[0];
-    }
+    const result = await query(sql, [...values]);
+    // return back the first row (phieu_thue_xe)
+    return result[0];
+  };
 
-    create = async ({ma_nguoi_thue, ngay_thue, ngay_tra, gio_thue, gio_tra, thoi_gian_tra_thuc_te, trang_thai}) => {
-        const sql = `INSERT INTO ${this.tableName}
+  create = async ({
+    ma_nguoi_thue,
+    ngay_thue,
+    ngay_tra,
+    gio_thue,
+    gio_tra,
+    thoi_gian_tra_thuc_te,
+    trang_thai,
+  }) => {
+    const sql = `INSERT INTO ${this.tableName}
         (ma_nguoi_thue, ngay_thue, ngay_tra, gio_thue, gio_tra, thoi_gian_tra_thuc_te, trang_thai) VALUES (?,?,?,?,?,?,?)`;
 
-        const result = await query(sql, [ma_nguoi_thue, ngay_thue, ngay_tra, gio_thue, gio_tra, thoi_gian_tra_thuc_te, trang_thai]);
-        const affectedRows = result ? result.affectedRows : 0;
+    const result = await query(sql, [
+      ma_nguoi_thue,
+      ngay_thue,
+      ngay_tra,
+      gio_thue,
+      gio_tra,
+      thoi_gian_tra_thuc_te,
+      trang_thai,
+    ]);
+    const { insertId } = result;
+    return insertId;
+  };
 
-        return affectedRows;
-    }
- 
-    update = async (params, id) => {
-        const { columnSet, values } = multipleColumnSet(params)
+  update = async (params, id) => {
+    const { columnSet, values } = multipleColumnSet(params);
 
-        const sql = `UPDATE ${this.tableName} SET ${columnSet} WHERE ${this.primaryKeyName} = ?`;
+    const sql = `UPDATE ${this.tableName} SET ${columnSet} WHERE ${this.primaryKeyName} = ?`;
 
-        const result = await query(sql, [...values, id]);
+    const result = await query(sql, [...values, id]);
 
-        return result;
-    }
+    return result;
+  };
 
-    delete = async (id) => {
-        const sql = `DELETE FROM ${this.tableName}
+  delete = async (id) => {
+    const sql = `DELETE FROM ${this.tableName}
         WHERE ${this.primaryKeyName} = ?`;
-        const result = await query(sql, [id]);
-        const affectedRows = result ? result.affectedRows : 0;
+    const result = await query(sql, [id]);
+    const affectedRows = result ? result.affectedRows : 0;
 
-        return affectedRows;
-    }
+    return affectedRows;
+  };
 }
 
-module.exports = new PhieuThueXeModel;
+module.exports = new PhieuThueXeModel();

@@ -12,7 +12,7 @@ router.get('/ma_nguoi_thue/:ma_nguoi_thue', auth(), awaitHandlerFactory(phieuThu
 router.get('/ngay_thue/:ngay_thue', auth(), awaitHandlerFactory(phieuThueXeController.getPhieuThueXeByNgayThue));
 router.get('/ngay_tra/:ngay_tra', auth(), awaitHandlerFactory(phieuThueXeController.getPhieuThueXeByNgayTra));
 router.get('/trang_thai/:trang_thai', auth(), awaitHandlerFactory(phieuThueXeController.getPhieuThueXeByTrangThai));
-router.post('/', auth(), awaitHandlerFactory(phieuThueXeController.createPhieuThueXe)); 
+router.post('/', awaitHandlerFactory(phieuThueXeController.createPhieuThueXe)); 
 router.patch('/ma_phieu_thue_xe/:ma_phieu_thue_xe', auth(), awaitHandlerFactory(phieuThueXeController.updatePhieuThueXe)); 
 router.delete('/ma_phieu_thue_xe/:ma_phieu_thue_xe', auth(), awaitHandlerFactory(phieuThueXeController.deletePhieuThueXe));
 
